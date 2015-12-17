@@ -1,0 +1,10 @@
+[backupbro]
+email_to=youremail
+email_from=youremail
+account_id=b2_account
+account_key=b2_key
+logfile=~/backupbro.log
+smtp_user=smtp_server_user
+smtp_password=smtp_server_password
+smtp_server=email-smtp.us-west-2.amazonaws.com
+smtp_port=587
