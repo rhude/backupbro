@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 import datetime
 import hashlib
 import json
@@ -13,11 +15,19 @@ import subprocess
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
+import socket
 
 #Setup
 
 parser = SafeConfigParser()
-parser.read('backupbro.cfg')
+
+#Config file
+configfile=expanduser("~/backupbro.cfg")
+print "Using: " + configfile
+
+parser.read(configfile)
+
+myhostname = socket.gethostname()
 
 
 # Keep a running log of messages for this session.
@@ -43,6 +53,7 @@ def listfiles(folder):
 def send_email(text):
     #Email setup.
     global parser
+    global myhostname
     email_to=parser.get( 'backupbro','email_to' )
     email_from=parser.get( 'backupbro','email_from' )
     EMAIL_HOST = parser.get( 'backupbro','smtp_server' )
@@ -51,7 +62,7 @@ def send_email(text):
     EMAIL_PORT = parser.get( 'backupbro','smtp_port' )
 
     msg = MIMEText(text)
-    msg['Subject'] = "Backup bro run report - " + str(datetime.datetime.now())
+    msg['Subject'] = '[' + myhostname + ']' + "Backup bro run report - " + str(datetime.datetime.now())
     msg['From'] = email_from
     msg['To'] = email_to
 
